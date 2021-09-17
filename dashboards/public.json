@@ -7,6 +7,13 @@
       "type": "datasource",
       "pluginId": "prometheus",
       "pluginName": "Prometheus"
+    },
+    {
+      "name": "VAR_PROMETHEUS_REPLICA",
+      "type": "constant",
+      "label": "prometheus_replica",
+      "value": "prometheus-k8s-0",
+      "description": ""
     }
   ],
   "__requires": [
@@ -70,7 +77,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1631795870495,
+  "iteration": 1631913843591,
   "links": [],
   "panels": [
     {
@@ -225,9 +232,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "op_gasPrice{cluster=~\"$network.*\", layer=\"layer2\", prometheus_replica=\"prometheus-k8s-0\"}  * 10^-9",
+          "expr": "sum by (layer) (op_gasPrice{cluster=~\"$network.*\", layer=\"layer2\", prometheus_replica=\"prometheus-k8s-0\"} ) * 10^-9",
           "interval": "",
-          "legendFormat": "{{ layer }}",
+          "legendFormat": "",
           "queryType": "randomWalk",
           "refId": "A"
         }
@@ -307,7 +314,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "op_gasPrice{cluster=~\"$network.*\", layer=\"layer2\", prometheus_replica=\"prometheus-k8s-0\"}  * 10^-9",
+          "expr": "sum by (layer) (op_gasPrice{cluster=~\"$network.*\", layer=\"layer2\", prometheus_replica=\"prometheus-k8s-0\"})  * 10^-9",
           "interval": "",
           "legendFormat": "{{ layer }}",
           "queryType": "randomWalk",
@@ -390,7 +397,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "increase(op_blocknumber{cluster=~\"$network.*\", prometheus_replica=\"prometheus-k8s-0\"}[10m])",
+          "expr": "sum by (cluster) (increase(op_blocknumber{cluster=~\"$network.*\", prometheus_replica=\"prometheus-k8s-0\"}[10m]))",
           "interval": "",
           "legendFormat": "{{ network }}",
           "queryType": "randomWalk",
@@ -453,7 +460,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "op_gasPrice{cluster=~\"$network.*\", layer=\"layer1\", prometheus_replica=\"prometheus-k8s-0\"}  * 10^-9",
+          "expr": "sum by (layer) (op_gasPrice{cluster=~\"$network.*\", layer=\"layer1\", prometheus_replica=\"prometheus-k8s-0\"})  * 10^-9",
           "interval": "",
           "legendFormat": "{{ layer }}",
           "queryType": "randomWalk",
@@ -539,7 +546,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "op_gasPrice{cluster=~\"$network.*\", layer=\"layer1\", prometheus_replica=\"prometheus-k8s-0\"}  * 10^-9",
+          "expr": "sum by (layer) (op_gasPrice{cluster=~\"$network.*\", layer=\"layer1\", prometheus_replica=\"prometheus-k8s-0\"})  * 10^-9",
           "interval": "",
           "legendFormat": "{{ layer }}",
           "queryType": "randomWalk",
@@ -624,7 +631,8 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "(\n  (op_gasPrice{layer=\"layer1\", cluster=~\"$network.*\"} * 10^4) \n    + \n    ignoring (layer) \n  (op_gasPrice{layer=\"layer2\"} * 2 * 10^6)\n) * 1.5 * 10^-18 * ignoring (endpoint,instance,job,namespace,network,pod,service) ethusd",
+          "expr": "(\nsum by (cluster) (op_gasPrice{layer=\"layer1\", cluster=~\"$network.*\", prometheus_replica=\"prometheus-k8s-0\"} * 10^4 ) +\n  ignoring(layer)\nsum by (cluster) (op_gasPrice{layer=\"layer2\", cluster=~\"$network.*\", prometheus_replica=\"prometheus-k8s-0\"} * 2 * 10^6 )\n)\n* 1.5 * 10^-18\n* ignoring (endpoint,instance,job,namespace,network,pod,service,prometheus_replica,prometheus) \nethusd{cluster=~\"$network.*\",prometheus_replica=\"prometheus-k8s-0\"}",
+          "instant": false,
           "interval": "",
           "legendFormat": "",
           "queryType": "randomWalk",
@@ -709,7 +717,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "(\n  (op_gasPrice{layer=\"layer1\", cluster=~\"$network.*\"} * 10^4) \n    + \n    ignoring (layer) \n  (op_gasPrice{layer=\"layer2\"} * 2 * 10^6)\n) * 1.5 * 10^-18 * ignoring (endpoint,instance,job,namespace,network,pod,service) ethusd",
+          "expr": "(\nsum by (cluster) (op_gasPrice{layer=\"layer1\", cluster=~\"$network.*\", prometheus_replica=\"prometheus-k8s-0\"} * 10^4 ) +\n  ignoring(layer)\nsum by (cluster) (op_gasPrice{layer=\"layer2\", cluster=~\"$network.*\", prometheus_replica=\"prometheus-k8s-0\"} * 2 * 10^6 )\n)\n* 1.5 * 10^-18\n* ignoring (endpoint,instance,job,namespace,network,pod,service,prometheus_replica,prometheus) \nethusd{cluster=~\"$network.*\",prometheus_replica=\"prometheus-k8s-0\"}",
           "interval": "",
           "legendFormat": "Uniswap trade",
           "queryType": "randomWalk",
@@ -794,7 +802,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "(\n  (op_gasPrice{layer=\"layer1\", cluster=~\"$network.*\"} * 2850) \n    + \n    ignoring (layer) \n  (op_gasPrice{layer=\"layer2\"} * 1 * 10^6)\n) * 1.5 * 10^-18 * ignoring (endpoint,instance,job,namespace,network,pod,service) ethusd",
+          "expr": "(\nsum by (cluster) (op_gasPrice{layer=\"layer1\", cluster=~\"$network.*\", prometheus_replica=\"prometheus-k8s-0\"} * 2850 ) +\n  ignoring(layer)\nsum by (cluster) (op_gasPrice{layer=\"layer2\", cluster=~\"$network.*\", prometheus_replica=\"prometheus-k8s-0\"} * 1 * 10^6 )\n)\n* 1.5 * 10^-18\n* ignoring (endpoint,instance,job,namespace,network,pod,service,prometheus_replica,prometheus) \nethusd{cluster=~\"$network.*\",prometheus_replica=\"prometheus-k8s-0\"}",
           "interval": "",
           "legendFormat": "",
           "queryType": "randomWalk",
@@ -879,7 +887,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "(\n  (op_gasPrice{layer=\"layer1\", cluster=~\"$network.*\"} * 2850 ) \n    + \n    ignoring (layer) \n  (op_gasPrice{layer=\"layer2\"} * 1 * 10^6)\n) * 1.5 * 10^-18 * ignoring (endpoint,instance,job,namespace,network,pod,service) ethusd",
+          "expr": "(\nsum by (cluster) (op_gasPrice{layer=\"layer1\", cluster=~\"$network.*\", prometheus_replica=\"prometheus-k8s-0\"} * 2850 ) +\n  ignoring(layer)\nsum by (cluster) (op_gasPrice{layer=\"layer2\", cluster=~\"$network.*\", prometheus_replica=\"prometheus-k8s-0\"} * 1 * 10^6 )\n)\n* 1.5 * 10^-18\n* ignoring (endpoint,instance,job,namespace,network,pod,service,prometheus_replica,prometheus) \nethusd{cluster=~\"$network.*\",prometheus_replica=\"prometheus-k8s-0\"}",
           "interval": "",
           "legendFormat": "Uniswap trade",
           "queryType": "randomWalk",
@@ -918,6 +926,28 @@
         "skipUrlSync": false,
         "sort": 0,
         "type": "query"
+      },
+      {
+        "description": "Which prometheus instance to use",
+        "error": null,
+        "hide": 2,
+        "label": null,
+        "name": "prometheus_replica",
+        "query": "${VAR_PROMETHEUS_REPLICA}",
+        "skipUrlSync": false,
+        "type": "constant",
+        "current": {
+          "value": "${VAR_PROMETHEUS_REPLICA}",
+          "text": "${VAR_PROMETHEUS_REPLICA}",
+          "selected": false
+        },
+        "options": [
+          {
+            "value": "${VAR_PROMETHEUS_REPLICA}",
+            "text": "${VAR_PROMETHEUS_REPLICA}",
+            "selected": false
+          }
+        ]
       }
     ]
   },
@@ -929,5 +959,5 @@
   "timezone": "",
   "title": "Public dashboard",
   "uid": "9hkhMxn7z",
-  "version": 22
+  "version": 26
 }
