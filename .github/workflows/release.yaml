@@ -26,9 +26,8 @@ jobs:
 
       - name: Install yq
         run: |
-          wget https://github.com/mikefarah/yq/releases/download/${VERSION}/${BINARY}.tar.gz -O - |
-            tar xz
-          && mv ${BINARY} /usr/bin/yq
+          wget https://github.com/mikefarah/yq/releases/download/${VERSION}/${BINARY}.tar.gz -O - | tar xz
+          mv ${BINARY} /usr/bin/yq
         env:
           VERSION: v4.13.3
           BINARY: yq_linux_amd64
