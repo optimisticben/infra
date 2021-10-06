@@ -27,7 +27,6 @@ jobs:
       - name: Install yq
         run: |
           mkdir -p $GITHUB_WORKSPACE/bin
-          echo "::add-path::$GITHUB_WORKSPACE/bin"
           wget https://github.com/mikefarah/yq/releases/download/${VERSION}/${BINARY}.tar.gz -O - | tar xz
           mv ${BINARY} $GITHUB_WORKSPACE/bin/yq
         env:
@@ -36,7 +35,7 @@ jobs:
 
       - name: Add Helm dependencies
         run: |
-          for repo in $(yq e '.dependencies[] | .repository' helm-charts/sequencer/Chart.yaml);do
+          for repo in $($GITHUB_WORKSPACE/bin/yq e '.dependencies[] | .repository' helm-charts/sequencer/Chart.yaml);do
             helm repo add ${repo}
           done
 
