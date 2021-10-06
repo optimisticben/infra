@@ -24,6 +24,21 @@ jobs:
         with:
           version: v3.4.0
 
+      - name: Install yq
+        run: |
+          wget https://github.com/mikefarah/yq/releases/download/${VERSION}/${BINARY}.tar.gz -O - |
+            tar xz
+          && mv ${BINARY} /usr/bin/yq
+        env:
+          VERSION: v4.13.3
+          BINARY: yq_linux_amd64
+
+      - name: Add Helm dependencies
+        run: |
+          for repo in $(yq e '.dependencies[] | .repository' helm-charts/sequencer/Chart.yaml);do
+            helm repo add ${repo}
+          done
+
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.2.0
         env:
