@@ -3,8 +3,7 @@ name: sequencer
 description: A Helm chart for running the Optimistic Ethereum Sequencer
 
 type: application
-version: 0.0.1
-appVersion: 0.0.1
+version: 0.1.0
 
 dependencies:
   - name: ingress-nginx
