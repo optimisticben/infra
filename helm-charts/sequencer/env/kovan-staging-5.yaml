@@ -1,0 +1,137 @@
+use_deployer: false
+use_hardhat: false
+use_cloudflare_dns: false
+use_tls: false
+use_message_relayer: false
+
+backend: "gcp"
+domains:
+  rpc: "kovan-staging-5.optimism.io"
+  websocket: "ws-kovan-staging-5.optimism.io"
+
+letsencrypt:
+  dev: false
+
+repo: 'ethereumoptimism'
+
+sequencer:
+  resources:
+    limits:
+      cpu: '24.0'
+      memory: 108G
+    requests:
+      cpu: '24.0'
+      memory: 108G
+  tag: 'prerelease-0.5.0-rc-0-a787fc3'
+  pprof_enabled: true
+  CHAIN_ID: ''
+  ETH1_CTC_DEPLOYMENT_HEIGHT: ''
+  ROLLUP_CLIENT_HTTP: 'http://data-transport-layer:7878'
+  ROLLUP_ADDRESS_MANAGER_OWNER_ADDRESS: ''
+  ROLLUP_GAS_PRICE_ORACLE_OWNER_ADDRESS: ''
+  ETH1_L1_CROSS_DOMAIN_MESSENGER_ADDRESS: ''
+  ETH1_L1_FEE_WALLET_ADDRESS: ''
+  ETH1_L1_STANDARD_BRIDGE_ADDRESS: ''
+  DEPLOYER_HTTP: ''
+  ROLLUP_FEE_THRESHOLD_DOWN: '0.8'
+  ROLLUP_FEE_THRESHOLD_UP: '3.0'
+  ROLLUP_TIMESTAMP_REFRESH: '3m'
+  ROLLUP_POLL_INTERVAL: '3s'
+  ROLLUP_ENFORCE_FEES: 'false'
+  ROLLUP_MIN_L2_GAS_LIMIT: '100000'
+  L2GETH_GENESIS_URL: 'https://doubting.mypinata.cloud/ipfs/'
+  BLOCK_SIGNER_PRIVATE_KEY: ''
+  BLOCK_SIGNER_ADDRESS: ''
+
+data_transport_layer:
+  resources:
+    limits:
+      cpu: '1.0'
+      memory: 1G
+    requests:
+      cpu: '1.0'
+      memory: 1G
+  tag: 'prerelease-0.5.0-rc-0-a787fc3'
+  DATA_TRANSPORT_LAYER__NODE_ENV: 'production'
+  DATA_TRANSPORT_LAYER__ETH_NETWORK_NAME: 'kovan'
+  DATA_TRANSPORT_LAYER__USE_SENTRY: 'false'
+  DATA_TRANSPORT_LAYER__ENABLE_METRICS: 'true'
+  DATA_TRANSPORT_LAYER__SENTRY_TRACE_RATE: '1'
+  DATA_TRANSPORT_LAYER__CONFIRMATIONS: '12'
+  DATA_TRANSPORT_LAYER__ADDRESS_MANAGER: ''
+  DATA_TRANSPORT_LAYER__L2_CHAIN_ID: ''
+  DEPLOYER_HTTP: ''
+
+gas_oracle:
+  resources:
+    limits:
+      cpu: '0.5'
+      memory: 512Mi
+    requests:
+      cpu: '0.25'
+      memory: 128Mi
+  tag: 'prerelease-0.5.0-rc-0-a787fc3'
+  GAS_PRICE_ORACLE_L1_CHAIN_ID: ''
+  GAS_PRICE_ORACLE_L2_CHAIN_ID: ''
+  GAS_PRICE_ORACLE_ENABLE_L1_BASE_FEE: 'true'
+  GAS_PRICE_ORACLE_ENABLE_L2_GAS_PRICE: 'true'
+  GAS_PRICE_ORACLE_L1_BASE_FEE_SIGNIFICANT_FACTOR: '0.1'
+  GAS_PRICE_ORACLE_TRANSACTION_GAS_PRICE: '0'
+  GAS_PRICE_ORACLE_LOG_LEVEL: '6'
+  GAS_PRICE_ORACLE_FLOOR_PRICE: '1'
+  GAS_PRICE_ORACLE_EPOCH_LENGTH_SECONDS: '60'
+  GAS_PRICE_ORACLE_TARGET_GAS_PER_SECOND: '11000000'
+  GAS_PRICE_ORACLE_MAX_PERCENT_CHANGE_PER_EPOCH: '0.10'
+  GAS_PRICE_ORACLE_AVERAGE_BLOCK_GAS_LIMIT_PER_EPOCH: '11000000'
+  GAS_PRICE_ORACLE_SIGNIFICANT_FACTOR: '0.05'
+  GAS_PRICE_ORACLE_LAYER_TWO_HTTP_URL: 'http://sequencer:8545'
+
+failover_proxy:
+  resources:
+    limits:
+      cpu: '1.0'
+      memory: 500M
+    requests:
+      cpu: '1.0'
+      memory: 500M
+  image: 'gcr.io/unique-hour-294915/failover-proxy:0.0.3'
+
+batch_submitter:
+  resources:
+    limits:
+      cpu: '1.0'
+      memory: 500M
+    requests:
+      cpu: '1.0'
+      memory: 500M
+  tag: 'prerelease-0.5.0-rc-0-a787fc3'
+  nodeEnv: 'production'
+  DEPLOYER_HTTP: ''
+  numConfirmations: '10'
+  safeMinimumEtherBalance: '1'
+  addressManagerAddress: ''
+  maxGasPriceInGwei: '250'
+  minL1TxSize: '1'
+  maxL1TxSize: '120000'
+  maxTxBatchCount: '250'
+  maxStateBatchCount: '1000'
+  finalityConfirmations: '10'
+  gasThresholdInGwei: '250'
+  resubmissionTimeout: '900'
+  gasRetryIncrement: '10'
+  maxBatchSubmissionTime: '1800'
+  proposerHdPath: "m/44'/60'/0'/0/1"
+  blockOffset: '1'
+  autoFixBatchOptionsConf: ''
+  ethNetworkName: ''
+  sentryTraceRate: '1'
+  useSentry: 'true'
+  runTxBatchSubmitter: 'true'
+  runStateBatchSubmitter: 'true'
+
+
+monitoring_enabled: true
+
+gcePersistentDisk:
+  data_transport_layer: data-transport-layer-kovan-staging-5
+  sequencer: sequencer-kovan-staging-5
